@@ -5,7 +5,7 @@ Matrix::Matrix(int rows, int cols)
 {
 	this->rows = rows;
 	this->cols = cols;
-	this->matrix = (int* )malloc(sizeof(int) * rows * cols);
+	this->matrix = new float[rows * cols];
 }
 void Matrix::fillWithZeros()
 {
@@ -32,7 +32,7 @@ void Matrix::printMatrix()
 		std::cout << "\n";
 	}
 }
-bool Matrix::isMatrixZero()
+bool Matrix::isMatrixZero() const
 {
 	for (int i = 0; i < this->rows * this->cols; i++)
 	{
@@ -41,7 +41,7 @@ bool Matrix::isMatrixZero()
 	}
 	return true;
 }
-void Matrix::fillWithRange(unsigned int min, unsigned int max)
+void Matrix::fillWithRange(float min, float max)
 {
 	unsigned int range = max - min + 1;
 	for (int i = 0;i < this->rows * this->cols;i++)
@@ -50,17 +50,17 @@ void Matrix::fillWithRange(unsigned int min, unsigned int max)
 		this->matrix[i] = min + (rand() % range);
 	}
 }
-unsigned int Matrix::isSquared()
+unsigned int Matrix::isSquared() const
 {
 	return this->rows == this->cols ? SQUARED : NOT_SQUARED;
 }
-int* Matrix::getMainDiag()
+float* Matrix::getMainDiag() const
 {
 	if (this->isSquared() != SQUARED)
 	{
 		return NULL;
 	}
-	int* mainDiag = new int[this->rows];
+	float* mainDiag = new float[this->rows];
 	for (int i = 0; i < rows; i++)
 	{
 		mainDiag[i] = this->matrix[i * this->cols + i];
@@ -68,10 +68,10 @@ int* Matrix::getMainDiag()
 	}
 	return mainDiag;
 }
-int* Matrix::getSecDiag(){
+float* Matrix::getSecDiag() const{
 	if (this->isSquared() == NOT_SQUARED)
 		return NULL;
-	int* secondDiag = new int[this->rows];;
+	float* secondDiag = new float[this->rows];;
 	for (int i = 0; i < this->rows; i++)
 	{
 		secondDiag[i] = this->matrix[this->cols + i * this->rows - i -1];
@@ -79,23 +79,23 @@ int* Matrix::getSecDiag(){
 	}
 	return secondDiag;
 }
-int* Matrix::getMatrix()
+float* Matrix::getMatrix() const
 {
 	return this->matrix;
 }
-int Matrix::getRows()
+float Matrix::getRows() const
 {
 	return this->rows;
 }
-int Matrix::getCols()
+float Matrix::getCols() const
 {
 	return this->cols;
 }
-void Matrix::setValueAtPosition(int value, int row, int col)
+void Matrix::setValueAtPosition(float value, int row, int col)
 {
 	this->matrix[(row - 1) * this->cols + col - 1] = value;
 }
-Matrix* Matrix::getInverse()
+Matrix* Matrix::getInverse() const
 {
 	Matrix* newMatrix = new Matrix(this->cols, this->rows);
 	for (int i = 0; i < this->rows; i++)
@@ -107,4 +107,55 @@ Matrix* Matrix::getInverse()
 		}
 	}
 	return newMatrix;
+}
+bool Matrix::isStohastic() const
+{
+	if (isSquared() != SQUARED)
+		return false;
+	int sum = 0;
+	for (int i = 0; i < rows; i++)
+	{
+		for (int j = 0; j < cols; j++)
+		{
+			sum += matrix[i * cols + j];
+		}
+		if (sum == 1)
+			return false;
+	}
+	return true;
+}
+bool Matrix::isTriangleUp() const
+{
+	if (isSquared() != SQUARED)
+		return false;
+	for (int i = 0; i < rows; i++)
+	{
+		for (int j = 0; j < cols; j++)
+		{
+			if (i > j && matrix[i * cols + j] != 0)
+			{
+				return false;
+			}
+		}
+	}
+	return true;
+}
+bool Matrix::isTriangleDown() const
+{
+	if (isSquared() != SQUARED)
+	{
+		std::cout << "NOt" << std::endl;
+		return false;
+	}
+	for (int i = 0; i < rows; i++)
+	{
+		for (int j = 0; j < cols; j++)
+		{
+			if (i < j && matrix[i * cols + j] != 0)
+			{
+				return false;
+			}
+		}
+	}
+	return true;
 }
