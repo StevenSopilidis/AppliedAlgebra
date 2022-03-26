@@ -91,5 +91,16 @@ public:
 	bool isStohastic() const;
 	bool isTriangleUp() const;
 	bool isTriangleDown() const;
+	static Matrix* copyMatrix(Matrix* matrixToCopy);
+
+	//fundemental row operations
+	void multiplieRow(int row, float l);
+	void changeRows(int row1, int row2);
+	void addRows(int row1,int row2, float l);
+
+	//fundemental col operations
+	void multiplieCol(int col, float l);
+	void changeCols(int col1, int col2);
+	void addCols(int col1, int col2, float l);	
 };
 
