@@ -83,11 +83,11 @@ float* Matrix::getMatrix() const
 {
 	return this->matrix;
 }
-float Matrix::getRows() const
+unsigned int Matrix::getRows() const
 {
 	return this->rows;
 }
-float Matrix::getCols() const
+unsigned int Matrix::getCols() const
 {
 	return this->cols;
 }
@@ -233,12 +233,6 @@ void Matrix::changeCols(int col1, int col2)
 		this->matrix[i * this->cols + (col2 - 1)] = temp;
 	}
 }
-/// <summary>
-/// performs col1 + l*col2
-/// </summary>
-/// <param name="col1">destination row</param>
-/// <param name="col2">source row</param>
-/// <param name="l">how many time will col2 multiplied before adding to col1</param>
 void Matrix::addCols(int col1, int col2, float l)
 {
 	if (col1 <= 0 || col1 > this->cols || col2 <= 0 || col2 > this->cols)
